@@ -5,8 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func UserRouters(handler handlers.Handler) *fiber.App {
-	routers := fiber.New()
+func UserRouters(routers *fiber.App, handler handlers.Handler) *fiber.App {
 
 	routers.Get("/healt", func(ctx *fiber.Ctx) error {
 		return ctx.Status(200).JSON(fiber.Map{

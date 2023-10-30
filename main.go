@@ -35,7 +35,7 @@ func main() {
 	userHandler := handlers.UserHandler(userService)
 
 	app := fiber.New()
-	app.Mount("/api", routers.UserRouters(userHandler))
+	app.Mount("/api", routers.UserRouters(app, userHandler))
 	log.Fatal(app.Listen(":8080"))
 
 }
