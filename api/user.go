@@ -1,8 +1,8 @@
-package handlers
+package api
 
 import (
-	"github.com/SDmrly/go_fiber_crud/apps"
 	"github.com/SDmrly/go_fiber_crud/models"
+	"github.com/SDmrly/go_fiber_crud/pkg/service"
 	"github.com/SDmrly/go_fiber_crud/utils"
 	"github.com/gofiber/fiber/v2"
 	"strconv"
@@ -18,10 +18,10 @@ type Handler interface {
 }
 
 type handler struct {
-	service apps.Service
+	service service.Service
 }
 
-func UserHandler(service apps.Service) Handler {
+func UserHandler(service service.Service) Handler {
 	return &handler{service: service}
 }
 
@@ -33,8 +33,8 @@ func (h *handler) Create(ctx *fiber.Ctx) error {
 	h.service.Create(newUser)
 
 	webStatus := models.WebStatus{
-		Code:    200,
-		Status:  "OK",
+		Code:    201,
+		Status:  "CREATED",
 		Message: "Successfully created user!",
 		Data:    newUser,
 	}
@@ -44,8 +44,8 @@ func (h *handler) Create(ctx *fiber.Ctx) error {
 
 func (h *handler) FindAll(ctx *fiber.Ctx) error {
 	webStatus := models.WebStatus{
-		Code:    200,
-		Status:  "OK",
+		Code:    201,
+		Status:  "CREATED",
 		Message: "Successfully listed users!",
 		Data:    h.service.FindAll(),
 	}
@@ -87,8 +87,8 @@ func (h *handler) ChangePassword(ctx *fiber.Ctx) error {
 	h.service.ChangePassword(userPassword)
 
 	webStatus := models.WebStatus{
-		Code:    200,
-		Status:  "OK",
+		Code:    201,
+		Status:  "CREATED",
 		Message: "Successfully updated password!",
 		Data:    nil,
 	}
@@ -104,8 +104,8 @@ func (h *handler) FindByID(ctx *fiber.Ctx) error {
 	userData := h.service.FindByID(id)
 
 	webStatus := models.WebStatus{
-		Code:    200,
-		Status:  "OK",
+		Code:    201,
+		Status:  "CREATED",
 		Message: "Successfully find user!",
 		Data:    userData,
 	}
@@ -127,5 +127,5 @@ func (h *handler) Delete(ctx *fiber.Ctx) error {
 		Data:    nil,
 	}
 
-	return ctx.Status(fiber.StatusCreated).JSON(webStatus)
+	return ctx.Status(fiber.StatusOK).JSON(webStatus)
 }

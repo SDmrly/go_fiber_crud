@@ -1,20 +1,16 @@
 package main
 
 import (
-	"github.com/SDmrly/go_fiber_crud/apps"
 	"github.com/SDmrly/go_fiber_crud/configs"
-	"github.com/SDmrly/go_fiber_crud/handlers"
-	"github.com/SDmrly/go_fiber_crud/routers"
+	"github.com/SDmrly/go_fiber_crud/router"
 	"github.com/SDmrly/go_fiber_crud/utils"
-	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"log"
 )
 
 var (
-	db  *gorm.DB
-	err error
+	db *gorm.DB
 )
 
 func init() {
@@ -25,17 +21,9 @@ func init() {
 }
 
 func main() {
-	validate := validator.New()
-
-	userRepo := apps.UserRepository(db)
-	err = userRepo.Migration()
-	utils.ErrorPanics(err)
-
-	userService := apps.UserService(userRepo, validate)
-	userHandler := handlers.UserHandler(userService)
-
 	app := fiber.New()
-	app.Mount("/api", routers.UserRouters(userHandler))
+	userAPI := router.UserAPI{App: app, DB: db}
+	userAPI.Router()
 	log.Fatal(app.Listen(":8080"))
 
 }

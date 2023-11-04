@@ -1,7 +1,8 @@
-package apps
+package service
 
 import (
 	"github.com/SDmrly/go_fiber_crud/models"
+	"github.com/SDmrly/go_fiber_crud/pkg/repository"
 	"github.com/SDmrly/go_fiber_crud/utils"
 	"github.com/go-playground/validator/v10"
 )
@@ -16,11 +17,11 @@ type Service interface {
 }
 
 type service struct {
-	repo     Repository
+	repo     repository.Repository
 	validate *validator.Validate
 }
 
-func UserService(repo Repository, validate *validator.Validate) Service {
+func UserService(repo repository.Repository, validate *validator.Validate) Service {
 	return &service{
 		repo:     repo,
 		validate: validate,

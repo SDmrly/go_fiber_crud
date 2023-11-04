@@ -1,4 +1,4 @@
-package apps
+package repository
 
 import (
 	"errors"
